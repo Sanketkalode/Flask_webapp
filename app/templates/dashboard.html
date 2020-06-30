@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<center>
+    <h1>{{_('Dashboard')}}</h1>
+    <h3>{{_('Welcome')}} {{current_user.username}}</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a href="{{url_for('main_blueprint.insert_item')}}" class="btn btn-outline-success">{{_('Insert Item')}}</a>
+            </div>
+            <div class="col">
+                <a href="{{url_for('main_blueprint.update_item_price')}}" class="btn btn-outline-success">{{_('Update
+                    Price')}}</a>
+            </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="row">
+            <div class="col">
+                <a href="{{url_for('main_blueprint.get_items')}}" class="btn btn-outline-success">{{_('View all Items')}}</a>
+            </div>
+            <div class="col">
+                <a href="{{url_for('main_blueprint.update_item_stock')}}" class="btn btn-outline-success">{{_('Update Item
+                    Stock')}}</a>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} {% else %}{{ 'Inventory Management' }}{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="navbar-brand">
+            {% if current_user.is_anonymous %}
+                <a href="{{url_for('main_blueprint.index')}}">Inventory Management</a>
+            {% else %}
+                <a href="{{url_for('main_blueprint.dashboard')}}">Inventory Management</a>
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_anonymous %}
+                    <a href="{{url_for('main_blueprint.user_login')}}" class="btn btn-light"><li>{{_('Login')}}</li></a>
+                    <a href="{{url_for('main_blueprint.user_register')}}" class="btn btn-light"><li>{{_('Register')}}</li></a>
+                {% else %}
+                    <a href="{{url_for('main_blueprint.logout')}}" class="btn btn-light"><li>{{_('Logout')}}</li></a>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}

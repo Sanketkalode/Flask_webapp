@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if not current_user.is_anonymous %}
+
+{% endif %}
+    <center>
+        <div><h1>{{_('Welcome')}}</h1></div>
+        <div><h2>{{_('Manage your inventory Here')}}</h2></div>
+    </center>
+{% endblock %}
