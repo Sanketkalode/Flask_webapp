@@ -5,6 +5,7 @@ from flask_babel import _
 from app.exceptions import UserExists
 from app.forms import LoginForm, RegistrationForm
 from app.handlers.handler import UserHandler
+from app.handlers.user import login, register
 from app.models import UserModel
 from app.views import main_blueprint
 
@@ -27,12 +28,11 @@ def user_login():
     if current_user.is_authenticated:
         return render_template('dashboard.html')
     form = LoginForm()
+    username = form.username.data
+    password = form.password.data
     if form.validate_on_submit():
-        user = UserHandler.find_by_username(form.username.data)
-        if user is not None and UserHandler.check_password(user.password, form.password.data):
-            login_user(user, remember=True)
+        if login(username,password):
             return render_template('dashboard.html')
-        flash(_('Invalid Username or Password'))
         return render_template('index.html')
     return render_template('login.html', title='Login', form=form)
 
@@ -40,16 +40,13 @@ def user_login():
 @main_blueprint.route('/register', methods=['POST', 'GET'])
 def user_register():
     form = RegistrationForm()
+    username = form.username.data
+    password = form.password.data
     user = UserHandler.find_by_username(form.username.data)
     try:
         if form.validate_on_submit():
-            if user is None:
-                newUser = UserModel(form.username.data, form.password.data)
-                UserHandler.save_to_db(newUser)
-                login_user(newUser, remember=True)
+            if register(username,password):
                 return render_template('dashboard.html')
-            else:
-                raise UserExists
     except UserExists:
         render_template('exception.html', ex=2)
     return render_template('register.html', title='SignUp', form=form)
